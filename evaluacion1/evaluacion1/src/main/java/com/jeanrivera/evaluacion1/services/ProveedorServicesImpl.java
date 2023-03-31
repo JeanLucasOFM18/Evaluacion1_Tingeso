@@ -5,6 +5,9 @@ import com.jeanrivera.evaluacion1.repositories.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ProveedorServicesImpl implements ProveedorServices {
 
@@ -23,5 +26,10 @@ public class ProveedorServicesImpl implements ProveedorServices {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<Proveedor> listadoProveedores() {
+        return proveedorRepository.findAll();
     }
 }

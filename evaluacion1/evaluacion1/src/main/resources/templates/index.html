@@ -1,14 +1,101 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <title>Index</title>
+    <style>
+        nav {
+            background-color: #333;
+            height: 50px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        nav li {
+            margin-left: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        nav a:hover {
+            background-color: white;
+            color: #333;
+        }
+        body {
+            background-image: url(https://wallpaperaccess.com/full/1751302.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .contenedor {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        .titulo {
+            font-size: 96px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .descripcion {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-
-    <section>
-        <h1>Index</h1>
-    </section>
-
+<section>
+    <nav>
+        <div class="logo">
+            <a href="/">MilkStgo</a>
+        </div>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="registro">Registro</a></li>
+            <li><a href="proveedores">Listado</a></li>
+            <li><a href="acopio">Importar</a></li>
+            <li><a href="#">Calcular</a></li>
+            <li><a href="#">Mostrar</a></li>
+        </ul>
+    </nav>
+    <div class="contenedor">
+        <h1 class="titulo">MilkStgo</h1>
+        <p class="descripcion">La mejor distribuidora de productos lácteos del país</p>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
 </body>
 </html>
