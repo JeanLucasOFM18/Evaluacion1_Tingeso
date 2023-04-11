@@ -1,7 +1,8 @@
 package com.jeanrivera.evaluacion1.services;
 
-import com.jeanrivera.evaluacion1.entity.Acopio;
+import com.jeanrivera.evaluacion1.entity.Porcentaje;
 import com.jeanrivera.evaluacion1.repositories.AcopioRepository;
+import com.jeanrivera.evaluacion1.repositories.PorcentajeRepository;
 import lombok.Generated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,24 +10,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Service
-public class AcopioServices {
+public class PorcentajeServices {
 
     @Autowired
-    private AcopioRepository acopioRepository;
+    private PorcentajeRepository porcentajeRepository;
 
-    private final Logger logg = (Logger) LoggerFactory.getLogger(AcopioServices.class);
+    private final Logger logg = (Logger) LoggerFactory.getLogger(PorcentajeServices.class);
 
-    public List<Acopio> obtenerData(){
-        return acopioRepository.findAll();
+    public List<Porcentaje> obtenerData(){
+        return porcentajeRepository.findAll();
     }
 
     @Generated
@@ -54,9 +55,8 @@ public class AcopioServices {
     @Generated
     public void leerCsv(String direccion){
         String texto = "";
-        SimpleDateFormat formatter = new SimpleDateFormat("yy/MM/dd");
         BufferedReader bf = null;
-        acopioRepository.deleteAll();
+        porcentajeRepository.deleteAll();
         try{
             bf = new BufferedReader(new FileReader(direccion));
             String temp = "";
@@ -67,7 +67,7 @@ public class AcopioServices {
                     count = 0;
                 }
                 else{
-                    guardarDataDB(formatter.parse(bfRead.split(";")[0]), bfRead.split(";")[1], bfRead.split(";")[2], bfRead.split(";")[3]);
+                    guardarDataDB(bfRead.split(";")[0], bfRead.split(";")[1], bfRead.split(";")[2]);
                     temp = temp + "\n" + bfRead;
                 }
             }
@@ -86,20 +86,19 @@ public class AcopioServices {
         }
     }
 
-    public void guardarData(Acopio data){
-        acopioRepository.save(data);
+    public void guardarData(Porcentaje data){
+        porcentajeRepository.save(data);
     }
 
-    public void guardarDataDB(Date fecha, String turno, String proveedor, String kls_leche){
-        Acopio newData = new Acopio();
-        newData.setFecha(fecha);
-        newData.setTurno(turno);
+    public void guardarDataDB(String proveedor, String grasa, String solidos){
+        Porcentaje newData = new Porcentaje();
         newData.setProveedor(proveedor);
-        newData.setKilos(kls_leche);
+        newData.setGrasa(grasa);
+        newData.setSolidototal(solidos);
         guardarData(newData);
     }
 
-    public void eliminarData(List<Acopio> datas){
-        acopioRepository.deleteAll(datas);
+    public void eliminarData(List<Porcentaje> datas){
+        porcentajeRepository.deleteAll(datas);
     }
 }

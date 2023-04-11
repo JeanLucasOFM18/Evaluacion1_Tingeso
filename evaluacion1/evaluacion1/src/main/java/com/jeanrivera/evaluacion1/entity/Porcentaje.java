@@ -5,21 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Entity
-@Table(name = "acopios")
+@Table(name = "porcentajes")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Acopio {
+public class Porcentaje {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Date fecha;
-    private String turno;
     private String proveedor;
-    private String kilos;
-
+    private String grasa;
+    private String solidototal;
 }
