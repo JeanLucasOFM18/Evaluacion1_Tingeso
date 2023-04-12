@@ -21,4 +21,7 @@ public interface AcopioRepository extends JpaRepository<Acopio, Integer> {
     @Query(value = "SELECT p.fecha FROM Acopio p WHERE p.proveedor = :filtro")
     List<Date> findAllByFecha(@Param("filtro") String filtro);
 
+    @Query("SELECT p.fecha FROM Acopio p WHERE p.proveedor = :proveedor AND p.turno = :turno")
+    List<Date> contarTurnos(@Param("proveedor") String proveedor, @Param("turno") String turno);
+
 }

@@ -102,4 +102,20 @@ public class AcopioServices {
     public void eliminarData(List<Acopio> datas){
         acopioRepository.deleteAll(datas);
     }
+
+    public List<Acopio> findByProveedor (String codigo){
+        return acopioRepository.findByProveedor(codigo);
+    }
+
+    public List<Date> findAllDistinctDates(String codigo){
+        return acopioRepository.findAllDistinctDates(codigo);
+    }
+
+    public List<Date> findAllByFecha(String codigo){
+        return acopioRepository.findAllByFecha(codigo);
+    }
+
+    public List<Date> contarTurnos(String codigo, String turno){
+        return acopioRepository.contarTurnos(codigo, turno);
+    }
 }

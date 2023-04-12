@@ -101,4 +101,8 @@ public class PorcentajeServices {
     public void eliminarData(List<Porcentaje> datas){
         porcentajeRepository.deleteAll(datas);
     }
+
+    public Porcentaje findByProveedor(String codigo){
+        return porcentajeRepository.findByProveedor(codigo);
+    }
 }
