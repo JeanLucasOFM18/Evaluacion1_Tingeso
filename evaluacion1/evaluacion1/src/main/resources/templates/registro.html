@@ -116,12 +116,16 @@
             margin-bottom: 10px;
             display: block;
         }
-
         form p {
             font-size: 14px;
             color: #333333;
             margin-top: 20px;
             text-align: center;
+        }
+        .select-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -148,45 +152,52 @@
             <label for="nombre">Nombre</label>
             <input type="text" id="nombre" name="nombre" required>
             <label for="categoria">Categoria</label>
-            <input type="text" id="categoria" name="categoria" required>
+            <div class="select-container">
+                <select id="categoria" name="categoria" required>
+                    <option value="">Seleccione una opción</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select>
+            </div>
             <label for="retencion">Retencion</label>
-            <input type="text" id="retencion" name="retencion" required>
+            <div class="select-container">
+                <select id="retencion" name="retencion" required>
+                    <option value="">Seleccione una opción</option>
+                    <option value="Si">Si</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
             <input type="submit" value="Registrarse">
         </form>
     </div>
     <!--
-    <div class="container p-3">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card">
-                    <div class="card-header text-center fs-4">
-                        Registro
-                    </div>
-                    <div class="card-body">
-                        <form action="crearProveedor" method="post">
-                            <div class="mb-3">
-                                <label>Ingresa codigo</label>
-                                <input type="text" name="codigo" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label>Ingresa nombre</label>
-                                <input type="text" name="nombre" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label>Ingresa categoria</label>
-                                <input type="text" name="categoria" class="form-control">
-                            </div>
-                            <div class="mb-3">
-                                <label>Ingresa retencion</label>
-                                <input type="text" name="retencion" class="form-control">
-                            </div>
-                            <button class="btn btn-primary col-md-12">Registrar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
+    <div class="container">
+        <h2>Formulario de Registro</h2>
+        <form action="crearProveedor" method="post">
+            <label for="codigo">Codigo</label>
+            <input type="text" id="codigo" name="codigo" required>
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="categoria">Categoria</label>
+            <select type="text" id="categoria" name="categoria" required>
+                <option value="">Seleccione una opción</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+            <label for="retencion">Retencion</label>
+            <select id="retencion" name="retencion" required>
+                <option value="">Seleccione una opción</option>
+                <option value="Si">Si</option>
+                <option value="No">No</option>
+            </select>
+            <input type="submit" value="Registrarse">
+        </form>
+    </div>
+    -->
 </section>
 </body>
 </html>

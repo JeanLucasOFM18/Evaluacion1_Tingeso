@@ -4,16 +4,10 @@ import com.jeanrivera.evaluacion1.entity.Acopio;
 import com.jeanrivera.evaluacion1.entity.Pagos;
 import com.jeanrivera.evaluacion1.entity.Porcentaje;
 import com.jeanrivera.evaluacion1.entity.Proveedor;
-import com.jeanrivera.evaluacion1.repositories.AcopioRepository;
 import com.jeanrivera.evaluacion1.repositories.PagosRepository;
-import com.jeanrivera.evaluacion1.repositories.PorcentajeRepository;
-import com.jeanrivera.evaluacion1.repositories.ProveedorRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.print.DocFlavor;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -51,35 +45,60 @@ public class PagosService {
         while (i < cantidad_proveedores){
             Pagos newPago = new Pagos();
             newPago.setCodigo_proveedor(obtenerCodigo(proveedores, i));
-            List<Pagos> pagoAntiguo = findByCodigo_proveedor(newPago.getCodigo_proveedor());
-            Proveedor proveedor = proveedorServices.obtenerPorCodigo(newPago.getCodigo_proveedor());
-            List<Acopio> listado = acopioServices.findByProveedor(newPago.getCodigo_proveedor());
-            List<Date> listado_dias = acopioServices.findAllDistinctDates(newPago.getCodigo_proveedor());
-            Porcentaje porcentaje = porcentajeServices.findByProveedor(newPago.getCodigo_proveedor());
-            List<Date> fechas = acopioServices.findAllByFecha(newPago.getCodigo_proveedor());
-            List<Date> turnosM = acopioServices.contarTurnos(newPago.getCodigo_proveedor(), "M");
-            List<Date> turnosT = acopioServices.contarTurnos(newPago.getCodigo_proveedor(), "T");
-            newPago.setNombre_proveedor(obtenerNombre(proveedor));
-            newPago.setTotalKl(obtenerTotalKilos(listado));
-            newPago.setDias(obtenerDias(listado_dias));
-            newPago.setPromedio(obtenerPromedioKilos(newPago.getTotalKl(), newPago.getDias()));
-            newPago.setVariacion_leche(obtenerVariacionLeche(pagoAntiguo, newPago.getTotalKl()));
-            newPago.setGrasa(obtenerGrasa(porcentaje));
-            newPago.setVariacion_grasa(obtenerVariacionGrasa(pagoAntiguo, newPago.getGrasa()));
-            newPago.setSolidos(obtenerSolidos(porcentaje));
-            newPago.setVariacion_solidos(obtenerVariacionSolidos(pagoAntiguo, newPago.getSolidos()));
-            newPago.setPago_leche(obtenerPagoLeche(newPago.getTotalKl(), proveedor.getCategoria()));
-            newPago.setPago_grasa(obtenerPagoGrasa(newPago.getTotalKl(), newPago.getGrasa()));
-            newPago.setPago_solido(obtenerPagoSolidos(newPago.getTotalKl(), newPago.getSolidos()));
-            newPago.setBonificacion(obtenerBonificacion(fechas, turnosM, turnosT));
-            newPago.setDescuento_varLeche(obtenerDescuentoLeche(newPago.getVariacion_leche()));
-            newPago.setDescuento_varGrasa(obtenerDescuentoGrasa(newPago.getVariacion_grasa()));
-            newPago.setDescuento_varSolidos(obtenerDescuentoSolido(newPago.getVariacion_solidos()));
-            newPago.setPago_total(obtenerPagoTotal(newPago));
-            newPago.setMonto_retencion(obtenerMontoRetencion(newPago.getPago_total(), proveedor));
-            newPago.setMonto_final(obtenerMontoFinal(newPago.getPago_total(), newPago.getMonto_retencion()));
-            guardarPago(newPago);
+            if(existenciaDatos(newPago)){
+                List<Pagos> pagoAntiguo = findByCodigo_proveedor(newPago.getCodigo_proveedor());
+                Proveedor proveedor = proveedorServices.obtenerPorCodigo(newPago.getCodigo_proveedor());
+                List<Acopio> listado = acopioServices.findByProveedor(newPago.getCodigo_proveedor());
+                List<Date> listado_dias = acopioServices.findAllDistinctDates(newPago.getCodigo_proveedor());
+                Porcentaje porcentaje = porcentajeServices.findByProveedor(newPago.getCodigo_proveedor());
+                List<Date> fechas = acopioServices.findAllByFecha(newPago.getCodigo_proveedor());
+                List<Date> turnosM = acopioServices.contarTurnos(newPago.getCodigo_proveedor(), "M");
+                List<Date> turnosT = acopioServices.contarTurnos(newPago.getCodigo_proveedor(), "T");
+                newPago.setNombre_proveedor(obtenerNombre(proveedor));
+                newPago.setTotalKl(obtenerTotalKilos(listado));
+                newPago.setDias(obtenerDias(listado_dias));
+                newPago.setPromedio(obtenerPromedioKilos(newPago.getTotalKl(), newPago.getDias()));
+                newPago.setVariacion_leche(obtenerVariacionLeche(pagoAntiguo, newPago.getTotalKl()));
+                newPago.setGrasa(obtenerGrasa(porcentaje));
+                newPago.setVariacion_grasa(obtenerVariacionGrasa(pagoAntiguo, newPago.getGrasa()));
+                newPago.setSolidos(obtenerSolidos(porcentaje));
+                newPago.setVariacion_solidos(obtenerVariacionSolidos(pagoAntiguo, newPago.getSolidos()));
+                newPago.setPago_leche(obtenerPagoLeche(newPago.getTotalKl(), proveedor.getCategoria()));
+                newPago.setPago_grasa(obtenerPagoGrasa(newPago.getTotalKl(), newPago.getGrasa()));
+                newPago.setPago_solido(obtenerPagoSolidos(newPago.getTotalKl(), newPago.getSolidos()));
+                newPago.setBonificacion(obtenerBonificacion(fechas, turnosM, turnosT));
+                newPago.setDescuento_varLeche(obtenerDescuentoLeche(newPago.getVariacion_leche()));
+                newPago.setDescuento_varGrasa(obtenerDescuentoGrasa(newPago.getVariacion_grasa()));
+                newPago.setDescuento_varSolidos(obtenerDescuentoSolido(newPago.getVariacion_solidos()));
+                newPago.setPago_total(obtenerPagoTotal(newPago));
+                newPago.setMonto_retencion(obtenerMontoRetencion(newPago.getPago_total(), proveedor));
+                newPago.setMonto_final(obtenerMontoFinal(newPago.getPago_total(), newPago.getMonto_retencion()));
+                guardarPago(newPago);
+            }
             i = i + 1;
+        }
+    }
+
+    /*
+    public boolean verificarDatos(Pagos newPago){
+        List<Acopio> listado = acopioServices.findByProveedor(newPago.getCodigo_proveedor());
+        Porcentaje porcentaje = porcentajeServices.findByProveedor(newPago.getCodigo_proveedor());
+
+        Integer aux = 0;
+        while (aux < listado.size()){
+
+        }
+    }*/
+
+    public boolean existenciaDatos(Pagos newPago){
+        List<Acopio> listado = acopioServices.findByProveedor(newPago.getCodigo_proveedor());
+        Porcentaje porcentaje = porcentajeServices.findByProveedor(newPago.getCodigo_proveedor());
+
+        if(listado != null && porcentaje != null){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
