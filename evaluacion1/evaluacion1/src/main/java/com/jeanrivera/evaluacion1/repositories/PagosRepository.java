@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface PagosRepository extends JpaRepository<Pagos, Integer> {
 
     @Query(value = "SELECT p FROM Pagos p WHERE p.codigo_proveedor = :filtro")
-    Pagos findByCodigo_proveedor(@Param("filtro") String filtro);
+    List<Pagos> findByCodigo_proveedor(@Param("filtro") String filtro);
 }

@@ -23,7 +23,7 @@ public class PagosController {
 
     @GetMapping("/calculos")
     public String mostrarCalculos(Model model) {
-        pagosService.calculo();
+        pagosService.obtencionDatos();
         List<Pagos> calculos = pagosService.findAll();
         model.addAttribute("calculos", calculos);
         return "calculos";
