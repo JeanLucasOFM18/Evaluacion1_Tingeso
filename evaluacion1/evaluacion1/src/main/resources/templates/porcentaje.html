@@ -15,6 +15,45 @@
 
     <title>Cargar Porcentaje</title>
     <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+        .hero{
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: #0eb4ff;
+        }
+        nav {
+            display: flex;
+            width: 84%;
+            margin: auto;
+            padding: 20px 0;
+            align-items: center;
+            justify-content: space-between;
+        }
+        nav ul li{
+            display: inline-block;
+            list-style: none;
+            margin: 10px 20px;
+        }
+        nav ul li a{
+            text-decoration: none;
+            color: #e2f1f8;
+            font-weight: bold;
+        }
+        nav ul li a:hover{
+            background-color: white;
+            color: #333;
+        }
+        .logo a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
         .container{
             display: flex;
             flex-direction: column;
@@ -34,19 +73,6 @@
         @media(max-width: 1200px){
             .f{margin-left: 200px;
                 margin-right: 200px;}
-        }
-        .header{
-            background-color: #1b3039;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            height: 85px;
-            padding: 5px 10%;
-        }
-        .header .logo{
-            margin-right: auto;
-            color: white;
-            font-family: 'Pacifico',serif;
         }
         .header .btn button{
             margin-left: 20px;
@@ -90,34 +116,40 @@
     </style>
 </head>
 <body>
-<header class="header">
-    <div class="logo">
-        <h1>MilkStgo</h1>
-    </div>
+<div class="hero">
     <nav>
+        <div class="logo">
+            <a href="/">MilkStgo</a>
+        </div>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="registro">Registro</a></li>
+            <li><a href="proveedores">Listado</a></li>
+            <li><a href="acopio">Acopio</a></li>
+            <li><a href="porcentaje">Porcentaje</a></li>
+            <li><a href="calculos">Calcular</a></li>
+        </ul>
     </nav>
-    <a class="btn" href="/"><button>Volver al menú principal</button></a>
-    <a class="btn-2" href="/fileInformation"><button>Ver el último CSV cargado</button></a>
-</header>
-<div class = "f">
-    <div class="container">
-        <h1><b>Cargar el archivo de datos</b></h1>
-        <form th:action="@{/porcentaje}" method="POST" enctype="multipart/form-data">
+    <div class = "f">
+        <div class="container">
+            <h1><b>Cargar el archivo de datos</b></h1>
+            <form th:action="@{/porcentaje}" method="POST" enctype="multipart/form-data">
+                <br>
+                <input type="file" class="form-control" name="file" accept = ".csv">
+                <br>
+                <input class = "btn btn-primary"
+                       type="submit" value="Cargar el archivo a la Base de Datos">
+            </form>
             <br>
-            <input type="file" class="form-control" name="file" accept = ".csv">
-            <br>
-            <input class = "btn btn-primary"
-                   type="submit" value="Cargar el archivo a la Base de Datos">
-        </form>
-        <br>
-        <u><b> <h2 th:text="${mensaje}"></h2></b></u>
+            <u><b> <h2 th:text="${mensaje}"></h2></b></u>
+        </div>
     </div>
-</div>
-<br>
-<hr>
+    <br>
+    <hr>
 
-<div class = "form1">
-    <h5><b>Recuerde que debe cargar un archivo Excel de extensión .csv!</b></h5>
+    <div class = "form1">
+        <h5><b>Recuerde que debe cargar un archivo Excel de extensión .csv!</b></h5>
+    </div>
 </div>
 </body>
 </html>
