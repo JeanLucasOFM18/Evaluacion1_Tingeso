@@ -6,6 +6,8 @@ import com.jeanrivera.evaluacion1.entity.Porcentaje;
 import com.jeanrivera.evaluacion1.entity.Proveedor;
 import com.jeanrivera.evaluacion1.services.PagosService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -17,11 +19,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class PagosServiceTest {
-
-    @Test
-    void contextLoads() {
-    }
+@SpringBootTest
+class PagosServiceTests {
 
     Proveedor proveedor = new Proveedor();
     PagosService pagosService = new PagosService();
