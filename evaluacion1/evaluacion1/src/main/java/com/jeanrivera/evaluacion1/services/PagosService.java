@@ -5,6 +5,7 @@ import com.jeanrivera.evaluacion1.entity.Pagos;
 import com.jeanrivera.evaluacion1.entity.Porcentaje;
 import com.jeanrivera.evaluacion1.entity.Proveedor;
 import com.jeanrivera.evaluacion1.repositories.PagosRepository;
+import lombok.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,7 @@ public class PagosService {
         return pagosRepository.findAll();
     }
 
+    @Generated
     public void obtencionDatos(){
         List<Proveedor> proveedores = proveedorServices.listadoProveedores();
         Integer cantidad_proveedores = proveedores.size();
