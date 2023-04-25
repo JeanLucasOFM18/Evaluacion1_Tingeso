@@ -130,25 +130,19 @@
             <li><a href="calculos">Calcular</a></li>
         </ul>
     </nav>
-    <div class = "f">
+    <div>
         <div class="container">
-            <h1><b>Cargar el archivo de datos</b></h1>
+            <h1><b>Subir Porcentaje</b></h1>
             <form th:action="@{/porcentaje}" method="POST" enctype="multipart/form-data">
                 <br>
                 <input type="file" class="form-control" name="file" accept = ".csv">
                 <br>
                 <input class = "btn btn-primary"
-                       type="submit" value="Cargar el archivo a la Base de Datos">
+                       type="submit" value="Subir archivo">
             </form>
             <br>
             <u><b> <h2 th:text="${mensaje}"></h2></b></u>
         </div>
-    </div>
-    <br>
-    <hr>
-
-    <div class = "form1">
-        <h5><b>Recuerde que debe cargar un archivo Excel de extensión .csv!</b></h5>
     </div>
 </div>
 </body>

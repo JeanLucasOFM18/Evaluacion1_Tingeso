@@ -32,6 +32,10 @@ public class PagosService {
     private PorcentajeServices porcentajeServices;
 
 
+    public List<Pagos> obtenerPagos(){
+        return pagosRepository.findAll();
+    }
+
     public List<Pagos> findByCodigo_proveedor(String codigo){
         return pagosRepository.findByCodigo_proveedor(codigo);
     }
@@ -44,11 +48,13 @@ public class PagosService {
     public void obtencionDatos(){
         List<Proveedor> proveedores = proveedorServices.listadoProveedores();
         Integer cantidad_proveedores = proveedores.size();
+        i = 0;
         while (i < cantidad_proveedores){
             Pagos newPago = new Pagos();
             newPago.setCodigo_proveedor(obtenerCodigo(proveedores, i));
             if(existenciaDatos(newPago)){
                 List<Pagos> pagoAntiguo = findByCodigo_proveedor(newPago.getCodigo_proveedor());
+                System.out.println("PAGO ANTIGUO: " + pagoAntiguo);
                 Proveedor proveedor = proveedorServices.obtenerPorCodigo(newPago.getCodigo_proveedor());
                 List<Acopio> listado = acopioServices.findByProveedor(newPago.getCodigo_proveedor());
                 List<Date> listado_dias = acopioServices.findAllDistinctDates(newPago.getCodigo_proveedor());
@@ -81,27 +87,11 @@ public class PagosService {
         }
     }
 
-    /*
-    public boolean verificarDatos(Pagos newPago){
-        List<Acopio> listado = acopioServices.findByProveedor(newPago.getCodigo_proveedor());
-        Porcentaje porcentaje = porcentajeServices.findByProveedor(newPago.getCodigo_proveedor());
-
-        Integer aux = 0;
-        while (aux < listado.size()){
-
-        }
-    }*/
-
     public boolean existenciaDatos(Pagos newPago){
         List<Acopio> listado = acopioServices.findByProveedor(newPago.getCodigo_proveedor());
         Porcentaje porcentaje = porcentajeServices.findByProveedor(newPago.getCodigo_proveedor());
 
-        if(listado != null && porcentaje != null){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return listado != null && porcentaje != null;
     }
 
     public String obtenerCodigo (List<Proveedor> proveedores, Integer posicion){

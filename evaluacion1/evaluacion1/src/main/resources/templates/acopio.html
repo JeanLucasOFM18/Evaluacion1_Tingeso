@@ -87,7 +87,7 @@
         }
         .header .btn button:hover{
             background-color: #e2f1f8;
-            color: #ffbc0e;
+            color: #0eb4ff;
             transform: scale(1.1);
         }
         .header .btn-2 button {
@@ -103,8 +103,11 @@
         }
         .header .btn-2 button:hover{
             background-color: #e2f1f8;
-            color: #ffbc0e;
+            color: #0eb4ff;
             transform: scale(1.1);
+        }
+        .centered {
+            text-align: center;
         }
         .form1{
             border: 1px solid rgb(82, 82, 173);
@@ -130,24 +133,19 @@
             <li><a href="calculos">Calcular</a></li>
         </ul>
     </nav>
-    <div class = "f">
+    <div>
         <div class="container">
-            <h1 class="mb-4">Subir archivo</h1>
+            <h1 class="mb-4">Subir Acopio</h1>
             <form th:action="@{/acopio}" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label for="file" class="form-label">Seleccionar archivo</label>
-                    <input type="file" class="form-control" id="file" name="file">
+                    <input type="file" class="form-control" id="file" name="file" accept="text/csv" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Subir archivo</button>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn btn-primary">Subir archivo</button>
+                </div>
             </form>
             <u><b> <h2 th:text="${mensaje}"></h2></b></u>
         </div>
-    </div>
-    <br>
-    <hr>
-
-    <div class = "form1">
-        <h5><b>Recuerde que debe cargar un archivo Excel de extensión .csv!</b></h5>
     </div>
 </div>
 </body>

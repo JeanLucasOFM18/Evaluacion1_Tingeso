@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -28,15 +29,15 @@ public class ProveedorController {
     }
 
     @PostMapping("/crearProveedor")
-    public String crearProveedor(@ModelAttribute Proveedor proveedor){
+    public String crearProveedor(@ModelAttribute Proveedor proveedor, RedirectAttributes redirectAttributes){
         //System.out.println(proveedor);
         if(proveedorServices.findByCodigo(proveedor.getCodigo())){
-            System.out.println("Ya existe este codigo asociado");
+            redirectAttributes.addFlashAttribute("mensaje", "Ya esta registrado este codigo");
         }
         else {
             Proveedor proveedornew = proveedorServices.crearProveedor(proveedor);
             if(proveedornew!=null){
-                System.out.println("Registro Exitoso");
+                redirectAttributes.addFlashAttribute("mensaje", "Registro Exitoso");
             }
             else {
                 System.out.println("Registro Fallido");
