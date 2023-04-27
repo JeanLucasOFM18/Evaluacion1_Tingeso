@@ -1,6 +1,6 @@
 jenkins.war
-data/
-archivos_prueba/
+data
+archivos_prueba
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
