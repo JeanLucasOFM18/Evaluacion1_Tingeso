@@ -14,7 +14,7 @@ services:
     container_name: evaluacion1
     image: jeanlucasofm/evaluacion1
     ports:
-      - "8080:8080"
+      - "8090:8090"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/Tingeso?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
       - SPRING_DATASOURCE_USERNAME=postgres
