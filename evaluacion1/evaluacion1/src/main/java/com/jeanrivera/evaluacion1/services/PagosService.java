@@ -17,8 +17,6 @@ import java.util.Objects;
 @Service
 public class PagosService {
 
-    private Integer i = 0;
-
     @Autowired
     private PagosRepository pagosRepository;
 
@@ -31,11 +29,6 @@ public class PagosService {
     @Autowired
     private PorcentajeServices porcentajeServices;
 
-
-    public List<Pagos> obtenerPagos(){
-        return pagosRepository.findAll();
-    }
-
     public List<Pagos> findByCodigo_proveedor(String codigo){
         return pagosRepository.findByCodigo_proveedor(codigo);
     }
@@ -44,54 +37,119 @@ public class PagosService {
         return pagosRepository.findAll();
     }
 
+    public boolean findByCodigo_proveedorAndQuincena(String codigo, String quincena){
+        return pagosRepository.findByCodigo_proveedorAndQuincena(codigo, quincena) == null;
+    }
+
     @Generated
     public void obtencionDatos(){
         List<Proveedor> proveedores = proveedorServices.listadoProveedores();
         Integer cantidad_proveedores = proveedores.size();
-        i = 0;
+        Integer i = 0;
         while (i < cantidad_proveedores){
             Pagos newPago = new Pagos();
             newPago.setCodigo_proveedor(obtenerCodigo(proveedores, i));
             if(existenciaDatos(newPago)){
-                List<Pagos> pagoAntiguo = findByCodigo_proveedor(newPago.getCodigo_proveedor());
-                System.out.println("PAGO ANTIGUO: " + pagoAntiguo);
-                Proveedor proveedor = proveedorServices.obtenerPorCodigo(newPago.getCodigo_proveedor());
-                List<Acopio> listado = acopioServices.findByProveedor(newPago.getCodigo_proveedor());
-                List<Date> listado_dias = acopioServices.findAllDistinctDates(newPago.getCodigo_proveedor());
-                Porcentaje porcentaje = porcentajeServices.findByProveedor(newPago.getCodigo_proveedor());
-                List<Date> fechas = acopioServices.findAllByFecha(newPago.getCodigo_proveedor());
-                List<Date> turnosM = acopioServices.contarTurnos(newPago.getCodigo_proveedor(), "M");
-                List<Date> turnosT = acopioServices.contarTurnos(newPago.getCodigo_proveedor(), "T");
-                newPago.setNombre_proveedor(obtenerNombre(proveedor));
-                newPago.setTotalKl(obtenerTotalKilos(listado));
-                newPago.setDias(obtenerDias(listado_dias));
-                newPago.setPromedio(obtenerPromedioKilos(newPago.getTotalKl(), newPago.getDias()));
-                newPago.setVariacion_leche(obtenerVariacionLeche(pagoAntiguo, newPago.getTotalKl()));
-                newPago.setGrasa(obtenerGrasa(porcentaje));
-                newPago.setVariacion_grasa(obtenerVariacionGrasa(pagoAntiguo, newPago.getGrasa()));
-                newPago.setSolidos(obtenerSolidos(porcentaje));
-                newPago.setVariacion_solidos(obtenerVariacionSolidos(pagoAntiguo, newPago.getSolidos()));
-                newPago.setPago_leche(obtenerPagoLeche(newPago.getTotalKl(), proveedor.getCategoria()));
-                newPago.setPago_grasa(obtenerPagoGrasa(newPago.getTotalKl(), newPago.getGrasa()));
-                newPago.setPago_solido(obtenerPagoSolidos(newPago.getTotalKl(), newPago.getSolidos()));
-                newPago.setBonificacion(obtenerBonificacion(fechas, turnosM, turnosT));
-                newPago.setDescuento_varLeche(obtenerDescuentoLeche(newPago.getVariacion_leche()));
-                newPago.setDescuento_varGrasa(obtenerDescuentoGrasa(newPago.getVariacion_grasa()));
-                newPago.setDescuento_varSolidos(obtenerDescuentoSolido(newPago.getVariacion_solidos()));
-                newPago.setPago_total(obtenerPagoTotal(newPago));
-                newPago.setMonto_retencion(obtenerMontoRetencion(newPago.getPago_total(), proveedor));
-                newPago.setMonto_final(obtenerMontoFinal(newPago.getPago_total(), newPago.getMonto_retencion()));
-                guardarPago(newPago);
+                if(detectarErrores(newPago)){
+                    if(findByCodigo_proveedorAndQuincena(newPago.getCodigo_proveedor(), determinarQuincena(acopioServices.obtenerData()))){
+                        List<Pagos> pagoAntiguo = findByCodigo_proveedor(newPago.getCodigo_proveedor());
+                        Proveedor proveedor = proveedorServices.obtenerPorCodigo(newPago.getCodigo_proveedor());
+                        List<Acopio> listado = acopioServices.findByProveedor(newPago.getCodigo_proveedor());
+                        List<Date> listado_dias = acopioServices.findAllDistinctDates(newPago.getCodigo_proveedor());
+                        Porcentaje porcentaje = porcentajeServices.findByProveedor(newPago.getCodigo_proveedor());
+                        List<Date> fechas = acopioServices.findAllByFecha(newPago.getCodigo_proveedor());
+                        List<Date> turnosM = acopioServices.contarTurnos(newPago.getCodigo_proveedor(), "M");
+                        List<Date> turnosT = acopioServices.contarTurnos(newPago.getCodigo_proveedor(), "T");
+                        newPago.setQuincena(determinarQuincena(acopioServices.obtenerData()));
+                        newPago.setNombre_proveedor(obtenerNombre(proveedor));
+                        newPago.setTotalKl(obtenerTotalKilos(listado));
+                        newPago.setDias(obtenerDias(listado_dias));
+                        newPago.setPromedio(obtenerPromedioKilos(newPago.getTotalKl(), newPago.getDias()));
+                        newPago.setVariacion_leche(obtenerVariacionLeche(pagoAntiguo, newPago.getTotalKl()));
+                        newPago.setGrasa(obtenerGrasa(porcentaje));
+                        newPago.setVariacion_grasa(obtenerVariacionGrasa(pagoAntiguo, newPago.getGrasa()));
+                        newPago.setSolidos(obtenerSolidos(porcentaje));
+                        newPago.setVariacion_solidos(obtenerVariacionSolidos(pagoAntiguo, newPago.getSolidos()));
+                        newPago.setPago_leche(obtenerPagoLeche(newPago.getTotalKl(), proveedor.getCategoria()));
+                        newPago.setPago_grasa(obtenerPagoGrasa(newPago.getTotalKl(), newPago.getGrasa()));
+                        newPago.setPago_solido(obtenerPagoSolidos(newPago.getTotalKl(), newPago.getSolidos()));
+                        newPago.setBonificacion(obtenerBonificacion(fechas, turnosM, turnosT));
+                        newPago.setDescuento_varLeche(obtenerDescuentoLeche(newPago.getVariacion_leche()));
+                        newPago.setDescuento_varGrasa(obtenerDescuentoGrasa(newPago.getVariacion_grasa()));
+                        newPago.setDescuento_varSolidos(obtenerDescuentoSolido(newPago.getVariacion_solidos()));
+                        newPago.setPago_total(obtenerPagoTotal(newPago));
+                        newPago.setMonto_retencion(obtenerMontoRetencion(newPago.getPago_total(), proveedor));
+                        newPago.setMonto_final(obtenerMontoFinal(newPago.getPago_total(), newPago.getMonto_retencion()));
+                        guardarPago(newPago);
+                    }
+                }
             }
             i = i + 1;
         }
     }
 
+    @Generated
     public boolean existenciaDatos(Pagos newPago){
         List<Acopio> listado = acopioServices.findByProveedor(newPago.getCodigo_proveedor());
         Porcentaje porcentaje = porcentajeServices.findByProveedor(newPago.getCodigo_proveedor());
 
         return listado != null && porcentaje != null;
+    }
+
+    @Generated
+    public boolean detectarErrores(Pagos newPago){
+        List<Acopio> listado = acopioServices.findByProveedor(newPago.getCodigo_proveedor());
+        Porcentaje porcentaje = porcentajeServices.findByProveedor(newPago.getCodigo_proveedor());
+
+        if(Integer.parseInt(porcentaje.getGrasa()) >= 0 && Integer.parseInt(porcentaje.getSolidototal()) >= 0){
+            Integer largo_acopio = listado.size();
+            Integer j = 0;
+            while (j < largo_acopio){
+                if (Objects.equals(listado.get(j).getTurno(), "M") || Objects.equals(listado.get(j).getTurno(), "T")){
+                    if(Integer.parseInt(listado.get(j).getKilos()) >= 0){
+                        j = j + 1;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+        else {
+            return false;
+        }
+
+        return true;
+    }
+
+    public String determinarQuincena(List<Acopio> acopio){
+        Date fecha = acopio.get(acopio.size() - 1).getFecha();
+        Integer mes = fecha.getMonth() + 1;
+        Integer ano = fecha.getYear() + 1900;
+        if(fecha.getDate() <= 15){
+            String fechaQuincena = ano + "/";
+            if (mes < 10){
+                fechaQuincena = fechaQuincena + "0" + mes + "/15";
+            }
+            else {
+                fechaQuincena = fechaQuincena  + mes + "/15";
+            }
+            return fechaQuincena;
+        }
+        else {
+            String fechaQuincena = ano + "/";
+            if (mes < 10){
+                fechaQuincena = fechaQuincena + "0" + mes + "/30";
+            }
+            else {
+                fechaQuincena = fechaQuincena +  mes + "/30";
+            }
+            return fechaQuincena;
+        }
+
     }
 
     public String obtenerCodigo (List<Proveedor> proveedores, Integer posicion){

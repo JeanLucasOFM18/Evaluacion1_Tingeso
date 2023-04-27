@@ -44,6 +44,34 @@
             font-weight: bold;
             font-size: 20px;
         }
+        .title-effect {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            position: relative;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .title-effect::after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 60px;
+            height: 5px;
+            background-color: #08efae;
+            transform: translateX(-50%);
+            transition: width 0.3s ease-in-out;
+        }
+
+        .title-effect:hover::after {
+            width: 80%;
+        }
     </style>
 </head>
 <body>
@@ -63,12 +91,12 @@
     </nav>
     <div class="container">
         <div class="row">
-            <h1> Listado Proveedores</h1>
+            <h1 class="title-effect">Listado de Proveedores</h1>
         </div>
         <div style="max-width: 100%; overflow-y: auto;">
             <table class="table table-dark table-striped">
                 <thead>
-                <tr>
+                <tr class="text-center">
                     <th>Codigo</th>
                     <th>Nombre</th>
                     <th>Categoria</th>
@@ -76,7 +104,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="proveedor : ${proveedores}">
+                <tr class="text-center" th:each="proveedor : ${proveedores}">
                     <td th:text="${proveedor.codigo}"></td>
                     <td th:text="${proveedor.nombre}"></td>
                     <td th:text="${proveedor.categoria}"></td>

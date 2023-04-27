@@ -1,7 +1,6 @@
 package com.jeanrivera.evaluacion1.services;
 
 import com.jeanrivera.evaluacion1.entity.Porcentaje;
-import com.jeanrivera.evaluacion1.repositories.AcopioRepository;
 import com.jeanrivera.evaluacion1.repositories.PorcentajeRepository;
 import lombok.Generated;
 import org.slf4j.Logger;

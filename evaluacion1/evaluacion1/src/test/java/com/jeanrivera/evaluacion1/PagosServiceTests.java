@@ -4,8 +4,14 @@ import com.jeanrivera.evaluacion1.entity.Acopio;
 import com.jeanrivera.evaluacion1.entity.Pagos;
 import com.jeanrivera.evaluacion1.entity.Porcentaje;
 import com.jeanrivera.evaluacion1.entity.Proveedor;
+import com.jeanrivera.evaluacion1.repositories.PagosRepository;
 import com.jeanrivera.evaluacion1.services.PagosService;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
@@ -18,9 +24,22 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class PagosServiceTests {
+
+    @Mock
+    private PagosRepository pagosRepository;
+
+    @InjectMocks
+    private PagosService pagosService1;
+
+    @Before
+    public void init() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     Proveedor proveedor = new Proveedor();
     PagosService pagosService = new PagosService();
@@ -967,5 +986,153 @@ class PagosServiceTests {
 
         Integer monto_final = pagosService.obtenerMontoFinal(pago_total, monto_retencion);
         assertEquals(1020000, monto_final);
+    }
+
+    @Test
+    public void findByCodigo_proveedorTest() {
+        // Preparación de datos de prueba
+        String codigo = "00001";
+        List<Pagos> listaPagos = new ArrayList<Pagos>();
+        Pagos pago1 = new Pagos();
+        pago1.setCodigo_proveedor(codigo);
+        pago1.setNombre_proveedor("Proveedor1");
+        pago1.setPago_total(1000);
+        listaPagos.add(pago1);
+        Pagos pago2 = new Pagos();
+        pago2.setCodigo_proveedor(codigo);
+        pago2.setNombre_proveedor("Proveedor2");
+        pago2.setPago_total(2000);
+        listaPagos.add(pago2);
+
+        // Configuración de comportamiento simulado del repositorio con Mockito
+        when(pagosRepository.findByCodigo_proveedor(codigo)).thenReturn(listaPagos);
+
+        // Ejecución del método a probar
+        List<Pagos> resultado = pagosService1.findByCodigo_proveedor(codigo);
+
+        // Comprobación de resultado
+        assertEquals(listaPagos.size(), resultado.size());
+        assertEquals(listaPagos.get(0).getNombre_proveedor(), resultado.get(0).getNombre_proveedor());
+        assertEquals(listaPagos.get(0).getPago_total(), resultado.get(0).getPago_total());
+        assertEquals(listaPagos.get(1).getNombre_proveedor(), resultado.get(1).getNombre_proveedor());
+        assertEquals(listaPagos.get(1).getPago_total(), resultado.get(1).getPago_total());
+    }
+
+    @Test
+    public void findAllTest() {
+        List<Pagos> expected = new ArrayList<>();
+        expected.add(new Pagos(1,"2023/04/15","00001", "Jose Fernandez", 110, 10, 5, 3, 5, 10, 5, 8, 5, 10, 5, 5, 5, 100, 10, 90, 90, 90));
+        expected.add(new Pagos(2,"2023/04/15", "00002", "Agustin Hernandez", 15, 10, 8, 2, 3, 15, 2, 10, 3, 15, 3, 3, 3, 150, 15, 135, 20, 230));
+
+        when(pagosRepository.findAll()).thenReturn(expected);
+
+        List<Pagos> actual = pagosService1.findAll();
+
+        assertEquals(expected.size(), actual.size());
+
+        for (int i = 0; i < expected.size(); i++) {
+            Pagos expectedPago = expected.get(i);
+            Pagos actualPago = actual.get(i);
+
+            assertEquals(expectedPago.getCodigo_proveedor(), actualPago.getCodigo_proveedor());
+            assertEquals(expectedPago.getNombre_proveedor(), actualPago.getNombre_proveedor());
+            assertEquals(expectedPago.getTotalKl(), actualPago.getTotalKl());
+            assertEquals(expectedPago.getDias(), actualPago.getDias());
+            assertEquals(expectedPago.getPromedio(), actualPago.getPromedio());
+            assertEquals(expectedPago.getVariacion_leche(), actualPago.getVariacion_leche());
+            assertEquals(expectedPago.getGrasa(), actualPago.getGrasa());
+            assertEquals(expectedPago.getVariacion_grasa(), actualPago.getVariacion_grasa());
+            assertEquals(expectedPago.getSolidos(), actualPago.getSolidos());
+            assertEquals(expectedPago.getVariacion_solidos(), actualPago.getVariacion_solidos());
+            assertEquals(expectedPago.getPago_leche(), actualPago.getPago_leche());
+            assertEquals(expectedPago.getPago_grasa(), actualPago.getPago_grasa());
+            assertEquals(expectedPago.getPago_solido(), actualPago.getPago_solido());
+            assertEquals(expectedPago.getBonificacion(), actualPago.getBonificacion());
+            assertEquals(expectedPago.getDescuento_varLeche(), actualPago.getDescuento_varLeche());
+            assertEquals(expectedPago.getDescuento_varGrasa(), actualPago.getDescuento_varGrasa());
+            assertEquals(expectedPago.getDescuento_varSolidos(), actualPago.getDescuento_varSolidos());
+            assertEquals(expectedPago.getPago_total(), actualPago.getPago_total());
+            assertEquals(expectedPago.getMonto_retencion(), actualPago.getMonto_retencion());
+            assertEquals(expectedPago.getMonto_final(), actualPago.getMonto_final());
+        }
+    }
+
+    @Test
+    public void guardarPagoTest() {
+        // Crear un objeto Pagos
+        Pagos pago = new Pagos(1,"2022/01/01", "00001", "Juan Perez", 100, 10, 10, 5, 3, 5, 10, 5, 8, 5, 10, 5, 5, 5, 100, 10, 90, 90);
+
+        // Llamar al método guardarPago
+        pagosService1.guardarPago(pago);
+
+        // Verificar que el método save del objeto pagosRepository fue llamado con el objeto pago como argumento
+        verify(pagosRepository).save(pago);
+    }
+
+    @Test
+    public void determinarQuincena15Test() {
+        List<Acopio> acopio = new ArrayList<>();
+        String fecha1 = "2023/03/14";
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate fecha1date = LocalDate.parse(fecha1, formato);
+        Date fechaDate1 = Date.from(fecha1date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Acopio acopio1 = new Acopio(1, fechaDate1, "M", "proveedor1", "100");
+        acopio.add(acopio1);
+        String quincena = pagosService.determinarQuincena(acopio);
+        Assert.assertEquals("2023/03/15", quincena);
+    }
+
+    @Test
+    public void determinarQuincena15Mes10Test() {
+        List<Acopio> acopio = new ArrayList<>();
+        String fecha1 = "2023/10/14";
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate fecha1date = LocalDate.parse(fecha1, formato);
+        Date fechaDate1 = Date.from(fecha1date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Acopio acopio1 = new Acopio(1, fechaDate1, "M", "proveedor1", "100");
+        acopio.add(acopio1);
+        String quincena = pagosService.determinarQuincena(acopio);
+        Assert.assertEquals("2023/10/15", quincena);
+    }
+
+    @Test
+    public void determinarQuincena30Test() {
+        List<Acopio> acopio = new ArrayList<>();
+        String fecha1 = "2023/03/29";
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate fecha1date = LocalDate.parse(fecha1, formato);
+        Date fechaDate1 = Date.from(fecha1date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Acopio acopio1 = new Acopio(1, fechaDate1, "M", "proveedor1", "100");
+        acopio.add(acopio1);
+        String quincena = pagosService.determinarQuincena(acopio);
+        Assert.assertEquals("2023/03/30", quincena);
+    }
+
+    @Test
+    public void determinarQuincena30Mes10Test() {
+        List<Acopio> acopio = new ArrayList<>();
+        String fecha1 = "2023/10/27";
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate fecha1date = LocalDate.parse(fecha1, formato);
+        Date fechaDate1 = Date.from(fecha1date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Acopio acopio1 = new Acopio(1, fechaDate1, "M", "proveedor1", "100");
+        acopio.add(acopio1);
+        String quincena = pagosService.determinarQuincena(acopio);
+        Assert.assertEquals("2023/10/30", quincena);
+    }
+
+    @Test
+    public void testFindByCodigo_proveedorAndQuincena() {
+        String codigo = "00001";
+        String quincena = "2023/04/15";
+        Pagos pago = new Pagos();
+        pago.setCodigo_proveedor("00001");
+        pago.setQuincena("2023/04/15");
+        when(pagosRepository.findByCodigo_proveedorAndQuincena(anyString(), anyString())).thenReturn(pago);
+
+        boolean result = pagosService1.findByCodigo_proveedorAndQuincena(codigo, quincena);
+
+        verify(pagosRepository, times(1)).findByCodigo_proveedorAndQuincena(codigo, quincena);
+        Assert.assertFalse(result);
     }
 }

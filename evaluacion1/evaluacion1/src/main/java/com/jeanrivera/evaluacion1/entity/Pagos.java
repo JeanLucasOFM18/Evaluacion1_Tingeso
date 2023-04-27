@@ -15,6 +15,7 @@ public class Pagos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String quincena;
     private String codigo_proveedor;
     private String nombre_proveedor;
     private Integer totalKl;

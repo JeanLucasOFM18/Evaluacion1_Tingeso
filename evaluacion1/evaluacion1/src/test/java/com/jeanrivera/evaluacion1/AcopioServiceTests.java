@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -201,5 +202,44 @@ public class AcopioServiceTests {
         verify(acopioRepository, times(1)).findAllDistinctDates("proveedor");
     }
 
-    /* Faltaron ultimas 2 (findAllFechas y contarTurnos) */
+    @Test
+    public void findAllByFechaTest() {
+        // Creamos los datos de entrada de prueba
+        String codigo = "00001";
+
+        // Creamos los datos de salida de prueba
+        Date fecha1 = new Date();
+        Date fecha2 = new Date();
+        List<Date> fechas = Arrays.asList(fecha1, fecha2);
+
+        // Configuramos el comportamiento del mock del repositorio
+        when(acopioRepository.findAllByFecha(codigo)).thenReturn(fechas);
+
+        // Invocamos al método que queremos probar
+        List<Date> resultado = acopioServices.findAllByFecha(codigo);
+
+        // Verificamos el resultado
+        Assert.assertEquals(fechas, resultado);
+    }
+
+    @Test
+    public void contarTurnosTest() {
+        // Creamos los datos de entrada de prueba
+        String codigo = "00001";
+        String turno = "M";
+
+        // Creamos los datos de salida de prueba
+        Date fecha1 = new Date();
+        Date fecha2 = new Date();
+        List<Date> fechas = Arrays.asList(fecha1, fecha2);
+
+        // Configuramos el comportamiento del mock del repositorio
+        when(acopioRepository.contarTurnos(codigo, turno)).thenReturn(fechas);
+
+        // Invocamos al método que queremos probar
+        List<Date> resultado = acopioServices.contarTurnos(codigo, turno);
+
+        // Verificamos el resultado
+        Assert.assertEquals(fechas, resultado);
+    }
 }

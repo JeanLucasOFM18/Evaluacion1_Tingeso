@@ -7,7 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class Evaluacion1ApplicationTests {
 
     @Test
-    void contextLoads() {
+    public void contextLoads() {
+        // Aquí puedes hacer cualquier verificación que consideres necesaria
+        Evaluacion1Application.main(new String[] {});
     }
 
 }

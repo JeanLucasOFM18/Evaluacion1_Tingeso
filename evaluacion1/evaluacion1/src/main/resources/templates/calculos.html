@@ -44,6 +44,34 @@
       font-weight: bold;
       font-size: 20px;
     }
+    .title-effect {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem;
+      text-align: center;
+      position: relative;
+      margin-bottom: 2rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    .title-effect::after {
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 60px;
+      height: 5px;
+      background-color: #08efae;
+      transform: translateX(-50%);
+      transition: width 0.3s ease-in-out;
+    }
+
+    .title-effect:hover::after {
+      width: 80%;
+    }
   </style>
 </head>
 <body>
@@ -63,12 +91,13 @@
   </nav>
   <div class="container">
     <div class="row">
-      <h1> Listado Pagos</h1>
+      <h1 class="title-effect">Listado de Pagos</h1>
     </div>
-    <div style="max-width: 100%; max-height: 300px; overflow: auto;">
+    <div style="max-width: 100%; max-height: 500px; overflow: auto;">
       <table class="table table-dark table-striped">
         <thead>
-        <tr>
+        <tr class="text-center">
+          <th>Quincena</th>
           <th>Codigo</th>
           <th>Nombre</th>
           <th>Total KLS</th>
@@ -92,7 +121,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="pagos : ${calculos}">
+        <tr class="text-center" th:each="pagos : ${calculos}">
+          <td th:text="${pagos.quincena}"></td>
           <td th:text="${pagos.codigo_proveedor}"></td>
           <td th:text="${pagos.nombre_proveedor}"></td>
           <td th:text="${pagos.totalKl}"></td>

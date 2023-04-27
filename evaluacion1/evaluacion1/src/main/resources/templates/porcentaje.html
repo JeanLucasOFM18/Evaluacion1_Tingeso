@@ -61,15 +61,6 @@
             align-items: center;
             margin: 2%;
         }
-        .f{
-            margin-top: 40px;
-            border: 3px solid rgb(162, 161, 161);
-            padding: 40px;
-            padding-top: 10px;
-            border-radius: 40px;
-            margin-left: 300px;
-            margin-right: 300px;
-        }
         @media(max-width: 1200px){
             .f{margin-left: 200px;
                 margin-right: 200px;}
@@ -106,12 +97,33 @@
             color: #ffbc0e;
             transform: scale(1.1);
         }
-        .form1{
-            border: 1px solid rgb(82, 82, 173);
-            padding: 30px;
-            border-radius: 30px;
-            margin-left: 300px;
-            margin-right: 300px;
+        .title-effect {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            position: relative;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .title-effect::after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 60px;
+            height: 5px;
+            background-color: #08efae;
+            transform: translateX(-50%);
+            transition: width 0.3s ease-in-out;
+        }
+
+        .title-effect:hover::after {
+            width: 80%;
         }
     </style>
 </head>
@@ -132,13 +144,15 @@
     </nav>
     <div>
         <div class="container">
-            <h1><b>Subir Porcentaje</b></h1>
+            <h1 class="title-effect">Subir Porcentaje</h1>
             <form th:action="@{/porcentaje}" method="POST" enctype="multipart/form-data">
                 <br>
                 <input type="file" class="form-control" name="file" accept = ".csv">
                 <br>
-                <input class = "btn btn-primary"
-                       type="submit" value="Subir archivo">
+                <div style="text-align: center;">
+                    <input class = "btn btn-primary"
+                           type="submit" value="Subir archivo">
+                </div>
             </form>
             <br>
             <u><b> <h2 th:text="${mensaje}"></h2></b></u>
