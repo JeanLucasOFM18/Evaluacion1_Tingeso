@@ -132,20 +132,20 @@ public class PagosService {
         if(fecha.getDate() <= 15){
             String fechaQuincena = ano + "/";
             if (mes < 10){
-                fechaQuincena = fechaQuincena + "0" + mes + "/15";
+                fechaQuincena = fechaQuincena + "0" + mes + "/1";
             }
             else {
-                fechaQuincena = fechaQuincena  + mes + "/15";
+                fechaQuincena = fechaQuincena  + mes + "/1";
             }
             return fechaQuincena;
         }
         else {
             String fechaQuincena = ano + "/";
             if (mes < 10){
-                fechaQuincena = fechaQuincena + "0" + mes + "/30";
+                fechaQuincena = fechaQuincena + "0" + mes + "/2";
             }
             else {
-                fechaQuincena = fechaQuincena +  mes + "/30";
+                fechaQuincena = fechaQuincena +  mes + "/2";
             }
             return fechaQuincena;
         }

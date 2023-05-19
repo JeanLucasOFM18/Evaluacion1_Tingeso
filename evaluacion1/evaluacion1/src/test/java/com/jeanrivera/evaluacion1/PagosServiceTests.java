@@ -1070,7 +1070,7 @@ class PagosServiceTests {
     }
 
     @Test
-    public void determinarQuincena15Test() {
+    public void determinarQuincena1Test() {
         List<Acopio> acopio = new ArrayList<>();
         String fecha1 = "2023/03/14";
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -1079,11 +1079,11 @@ class PagosServiceTests {
         Acopio acopio1 = new Acopio(1, fechaDate1, "M", "proveedor1", "100");
         acopio.add(acopio1);
         String quincena = pagosService.determinarQuincena(acopio);
-        Assert.assertEquals("2023/03/15", quincena);
+        Assert.assertEquals("2023/03/1", quincena);
     }
 
     @Test
-    public void determinarQuincena15Mes10Test() {
+    public void determinarQuincena1Mes10Test() {
         List<Acopio> acopio = new ArrayList<>();
         String fecha1 = "2023/10/14";
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -1092,11 +1092,11 @@ class PagosServiceTests {
         Acopio acopio1 = new Acopio(1, fechaDate1, "M", "proveedor1", "100");
         acopio.add(acopio1);
         String quincena = pagosService.determinarQuincena(acopio);
-        Assert.assertEquals("2023/10/15", quincena);
+        Assert.assertEquals("2023/10/1", quincena);
     }
 
     @Test
-    public void determinarQuincena30Test() {
+    public void determinarQuincena2Test() {
         List<Acopio> acopio = new ArrayList<>();
         String fecha1 = "2023/03/29";
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -1105,11 +1105,11 @@ class PagosServiceTests {
         Acopio acopio1 = new Acopio(1, fechaDate1, "M", "proveedor1", "100");
         acopio.add(acopio1);
         String quincena = pagosService.determinarQuincena(acopio);
-        Assert.assertEquals("2023/03/30", quincena);
+        Assert.assertEquals("2023/03/2", quincena);
     }
 
     @Test
-    public void determinarQuincena30Mes10Test() {
+    public void determinarQuincena2Mes10Test() {
         List<Acopio> acopio = new ArrayList<>();
         String fecha1 = "2023/10/27";
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -1118,7 +1118,7 @@ class PagosServiceTests {
         Acopio acopio1 = new Acopio(1, fechaDate1, "M", "proveedor1", "100");
         acopio.add(acopio1);
         String quincena = pagosService.determinarQuincena(acopio);
-        Assert.assertEquals("2023/10/30", quincena);
+        Assert.assertEquals("2023/10/2", quincena);
     }
 
     @Test
