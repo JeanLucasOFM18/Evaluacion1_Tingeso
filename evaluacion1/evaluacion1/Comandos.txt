@@ -1,0 +1,17 @@
+docker:
+1) docker build -t jeanlucasofm/evaluacion1 .
+2) docker push jeanlucasofm/evaluacion1
+3) docker-compose up
+
+sonarqube:
+.\StartSonar.bat
+mvn clean install sonar:sonar
+
+jenkins:
+iniciar: java -jar jenkins.war --httpPort=8443
+
+nube:
+chmod 400 key.pem
+ssh -i key.pem ec2-user@(IP4 PUBLICA)
+docker pull jeanlucasofm/evaluacion1:latest
+docker-compose --compatibility up
